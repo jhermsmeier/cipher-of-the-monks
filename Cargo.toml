@@ -1,0 +1,9 @@
+[package]
+  name = "cipher-of-the-monks"
+  version = "0.0.0"
+  authors = ["Jonas Hermsmeier (https://jhermsmeier.de)"]
+
+[dependencies]
+
+[dependencies.sdl2]
+  git = "https://github.com/AngryLawyer/rust-sdl2"
