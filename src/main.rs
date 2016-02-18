@@ -2,13 +2,15 @@ extern crate sdl2;
 
 use sdl2::{ Sdl, SdlResult, VideoSubsystem };
 use sdl2::video::{ Window, FullscreenType };
+use sdl2::mouse::{ Cursor };
 use sdl2::event::{ Event };
 
 #[allow(dead_code)]
 struct CipherClock {
   context: Sdl,
   subsystem: VideoSubsystem,
-  window: Window
+  window: Window,
+  cursor: Cursor
 }
 
 impl CipherClock {
@@ -32,8 +34,18 @@ impl CipherClock {
     return CipherClock {
       context: context,
       subsystem: subsystem,
-      window: window
+      window: window,
+      cursor: CipherClock::create_cursor(),
     };
+    
+  }
+  
+  fn create_cursor() -> Cursor {
+    
+    let data: &[u8] = &[];
+    let mask: &[u8] = &[];
+    
+    return Cursor::new( data, mask, 1i32, 1i32, 0i32, 0i32 ).unwrap();
     
   }
   
@@ -43,9 +55,13 @@ impl CipherClock {
     return self.window.set_fullscreen( FullscreenType::True );
   }
   
+  fn hide_cursor( &mut self ) {
+    self.cursor.set();
+  }
+  
   fn quit( &mut self ) {
-    // window.set_fullscreen( FullscreenType::Off );
-    self.window.hide()
+    // self.window.set_fullscreen( FullscreenType::Off );
+    self.window.hide();
   }
   
 }
@@ -55,6 +71,8 @@ fn main() {
   let title = "The Cipher of The Monks";
   let mut clock = CipherClock::new();
   let mut event_loop = clock.context.event_pump().unwrap();
+  
+  clock.hide_cursor();
   
   match clock.show() {
     Ok(result) => println!( "{0} {1:?}", title, result ),
