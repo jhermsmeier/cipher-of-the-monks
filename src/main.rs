@@ -57,15 +57,18 @@ fn main() {
   let mut event_loop = clock.context.event_pump().unwrap();
   
   match clock.show() {
-    Ok(_) => println!( "{0}", title ),
-    Err(message) => println!( "The Monks went to the Catacombs: {0}", message ),
+    Ok(result) => println!( "{0} {1:?}", title, result ),
+    Err(message) => panic!( "The Monks went to the Catacombs: {:?}", message ),
   }
   
   for event in event_loop.wait_iter() {
     match event {
       Event::KeyDown {..} => { clock.quit(); break },
       Event::MouseButtonDown {..} => { clock.quit(); break },
-      _ => ()
+      Event::Window { win_event_id, .. } => {
+        println!( "Window::{:?}", win_event_id );
+      },
+      _ => (),
     }
   }
   
